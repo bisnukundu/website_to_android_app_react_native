@@ -3,16 +3,18 @@ import {Text, View, Platform, BackHandler} from 'react-native';
 import {WebView} from 'react-native-webview';
 function App() {
   const webViewRef = useRef(null);
-  const onBackPress = ()=>{
+  const onBackPress = () => {
     if (webViewRef.current) {
       webViewRef.current.goBack();
     }
     return false;
-  }
+  };
   useEffect(() => {
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', () => );
-
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
     }
   }, []);
   return (
